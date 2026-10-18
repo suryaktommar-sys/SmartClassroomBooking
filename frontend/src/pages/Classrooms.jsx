@@ -10,7 +10,7 @@ function Classrooms() {
   useEffect(() => {
     const fetchClassrooms = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/classrooms')
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/classrooms`)
 
         if (!response.ok) {
           throw new Error('Failed to fetch classrooms')
