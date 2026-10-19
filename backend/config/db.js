@@ -8,6 +8,11 @@ const pool = mysql.createPool({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME || 'smart_classroom_booking',
     port: Number(process.env.DB_PORT) || 3306,
+
+    ssl: {
+        minVersion: 'TLSv1.2'
+    },
+
     waitForConnections: true,
     connectionLimit: 10
 });
