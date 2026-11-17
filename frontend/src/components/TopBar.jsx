@@ -1,4 +1,23 @@
+
+import { useNavigate } from 'react-router-dom';
+
 function TopBar({ title, onMenuClick }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/login', { replace: true });
+  };
+
+  let user = {};
+
+  try {
+    user = JSON.parse(localStorage.getItem('user') || '{}');
+  } catch {
+    user = {};
+  }
+
   return (
     <header className="sticky top-0 z-20 flex items-center justify-between border-b border-navy-100 bg-white px-4 py-3 lg:px-8">
       <div className="flex items-center gap-3">
@@ -12,23 +31,35 @@ function TopBar({ title, onMenuClick }) {
             <path strokeLinecap="round" d="M4 7h16M4 12h16M4 17h16" />
           </svg>
         </button>
+
         <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-navy-500">College Administration</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-navy-500">
+            College Administration
+          </p>
           <h1 className="text-lg font-semibold text-navy-900">{title}</h1>
         </div>
       </div>
 
       <div className="flex items-center gap-3">
         <div className="hidden text-right sm:block">
-          <p className="text-sm font-semibold text-navy-900">Faculty User</p>
-          <p className="text-xs text-slate-500">Sample account</p>
+          <p className="text-sm font-semibold text-navy-900">
+            {user.name || 'Faculty User'}
+          </p>
+          <p className="text-xs text-slate-500">
+            {user.role || 'Faculty'}
+          </p>
         </div>
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-navy-900 text-sm font-semibold text-white">
-          FU
-        </div>
+
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition"
+        >
+          Logout
+        </button>
       </div>
     </header>
-  )
+  );
 }
 
-export default TopBar
+export default TopBar;
